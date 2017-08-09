@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>head</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		html, body {
+			width: 100%;
+			transform: perspective(520px);
+		}
+		.circle {
+			width: 320px;
+			height: 360px;
+			margin: auto;
+			position: relative;
+			transform-style: preserve-3d;
+			/*animation: test 10s infinite linear;*/
+			transform: perspective(1020px);
+		}
+		@keyframes test {
+			to {
+				transform: rotateX(360deg);
+			}
+		}
+		img {
+			position: absolute;
+			top: 100px;
+			left: calc(50% - 80px);
+			margin: 10px;
+			height: 220px;
+			width: 160px;
+			transform-style: preserve-3d;
+			transform-origin: 50% 50%;
+			transition: 1s all ease;
+		}
+		.No1 {
+			transform: translateZ(600px);
+		}
+		.No2 {
+			left: calc(50% - 287px);
+			transform: translateZ(120px) rotateY(-60deg);
+		}
+		.No3 {
+			left: calc(50% - 287px);
+			transform: translateZ(-120px) rotateY(-120deg);
+		}
+		.No4 {
+			transform: translateZ(-240px) rotateY(-180deg);
+		}
+		.No5 {
+			left: calc(50% + 140px);
+			transform: translateZ(-120px) rotateY(120deg);
+		}
+		.No6 {
+			left: calc(50% + 140px);
+			transform: translateZ(120px) rotateY(60deg);
+		}
+		.right{
+			width: 0;
+			height: 0;
+			border-left: 50px solid #b7b5cd;
+			border-bottom: 50px solid transparent;
+			border-top: 50px solid transparent;
+			position: absolute;
+			top:200px;
+			right: 10%;
+		}
+		.left{
+			width: 0;
+			height: 0;
+			border-right: 50px solid #b7b5cd;
+			border-bottom: 50px solid transparent;
+			border-top: 50px solid transparent;
+			position: absolute;
+			top:200px;
+			left: 10%;
+		}
+	</style>
+</head>
+<body>
+	<div class="left"></div>
+	<div class="circle">
+		<a href="javascript:void(0)"><img src="" alt="" class="pic No1"></a>
+		<a href="javascript:void(0)"><img src="" alt="" class="pic No2"></a>
+		<a href="javascript:void(0)"><img src="" alt="" class="pic No3"></a>
+		<a href="javascript:void(0)"><img src="" alt="" class="pic No4"></a>
+		<a href="javascript:void(0)"><img src="" alt="" class="pic No5"></a>
+		<a href="javascript:void(0)"><img src="" alt="" class="pic No6"></a>
+	</div>
+	<div class="right"></div>
+</body>
+<script>
+var pic = document.getElementsByTagName( "img" );
+for( var i = 0; i < pic.length; ++i )
+{
+	pic[ i ].src = "img/" + i + ".jpg";
+}
+var index=0;
+var img = document.getElementsByClassName( "circle" )[0];
+var timer=setInterval(roll(pic),1000);
+function roll(pic){
+	return function(){
+		index++;
+		console.log(index);
+		show(pic);
+	}
+}
+function show(pic){
+	for(var i=0;i<pic.length;++i){
+		if(index<0){
+			index = 4;
+		}
+		pic[i ].setAttribute("class","pic No"+((i+index)%6+1));
+	}
+}
+img.addEventListener("mouseenter",stoproll);
+function stoproll(){
+	clearInterval(timer);
+}
+img.addEventListener("mouseleave",function(){
+	timer=setInterval(roll(pic),1000);
+});
+var left=document.getElementsByClassName( "left" )[0];
+left.onclick=function(){
+	stoproll();
+	index--;
+	show(pic);
+	timer=setInterval(roll(pic),1000);
+};
+var right=document.getElementsByClassName( "right" )[0];
+right.onclick=function(){
+	stoproll();
+	index++;
+	show(pic);
+	timer=setInterval(roll(pic),1000);
+}
+</script>
+</html>
